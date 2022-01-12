@@ -5,7 +5,8 @@ const display = i=>{
     let markup = document.createElement("div");
     markup.innerHTML=`<div>
                             <h2>${data[i].name}</h2>
-                            <p><a href="${data[i].url}"><button type="button">Click to Play!</button></a></p>
+                            <p><audio src="${data[i].url}" controls preload> </audio></p>
+                            
                         </div>`;
     DisplayData.appendChild(markup);
     
