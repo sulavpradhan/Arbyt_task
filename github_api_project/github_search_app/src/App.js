@@ -10,13 +10,12 @@ function App() {
   const[posts , setposts] = useState([])
   useEffect(() => {
     const getApi = async()=>{
-      console.log(newUsername)
+
       const response = await fetch("https://api.github.com/search/users?q="+newUsername+"in:user")
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       let a = data.items
-      console.log(a)
-      setposts(data.total_count)}
+      setposts(a)}
     
       getApi();
   }, [newUsername]);
@@ -33,9 +32,7 @@ function App() {
               posts={posts}
             />
           </Route>
-          <Route exact path="/Repos">
-            <Repos/>
-          </Route>
+          <Route exact path="/Repos/:login" component={Repos}/>
         </Switch>
       </div>
     </Router>

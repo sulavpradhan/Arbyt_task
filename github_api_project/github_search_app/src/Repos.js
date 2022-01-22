@@ -1,9 +1,41 @@
 import React from 'react';
+import {useState, useEffect} from 'react';
 
-const Repos = () => {
-  return <div>
-      <h1>repos page</h1>
-  </div>;
+const Repos = ({match}) => {
+  const[Repo , setRepo] = useState([])
+  var newName = match.params.login
+  useEffect(() => {
+    const getApi = async()=>{
+
+      const response = await fetch(`https://api.github.com/users/${newName}/repos`)
+      const data = await response.json()
+      console.log(data[0].name)
+      let a = data
+      setRepo(a)
+    }
+    
+    getApi();
+  }, [newName]);
+  
+  return(
+
+  <main>
+  <ul>
+      {Repo.map((item)=>{
+        return(
+          
+          <li className='Repo' key={item.id}>
+            <h2>
+              {item.name}
+            </h2>
+                                
+          </li>
+        
+        )
+      }) }
+  </ul>
+</main>
+  )
 };
 
 export default Repos;
