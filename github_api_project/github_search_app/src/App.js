@@ -11,7 +11,12 @@ function App() {
   useEffect(() => {
     const getApi = async()=>{
 
-      const response = await fetch("https://api.github.com/search/users?q="+newUsername+"in:user")
+      const response = await fetch(`https://api.github.com/search/users?q=${newUsername}in:user`,{
+          method: "GET",
+          headers: {
+            Authorization: `token ${process.env.REACT_APP_token_githubSearchApp}` 
+          }
+        })
       const data = await response.json()
       // console.log(data)
       let a = data.items
