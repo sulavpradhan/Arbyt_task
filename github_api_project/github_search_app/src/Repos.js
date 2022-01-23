@@ -9,7 +9,6 @@ const Repos = ({match}) => {
 
       const response = await fetch(`https://api.github.com/users/${newName}/repos`)
       const data = await response.json()
-      console.log(data[0].name)
       let a = data
       setRepo(a)
     }
@@ -20,7 +19,7 @@ const Repos = ({match}) => {
   return(
 
   <main>
-  <ul>
+  <ul style={{listStyle: 'none'}}>
       {Repo.map((item)=>{
         return(
           

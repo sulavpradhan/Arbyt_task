@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaSearch } from 'react-icons/fa';
+import "./SearchBox.css"
 
 const SearchBox = ({setnewUsername}) => {
   
@@ -9,12 +9,13 @@ const SearchBox = ({setnewUsername}) => {
       <input 
         autoFocus
         id = 'addUser'
-        placeholder='Username'
+        placeholder= "Search username &#xF002;"
+        role='searchbox'
         type='text'
+        style={{borderRadius:'10px', marginTop:'18.720px', marginRight:'1em'}}
         />
-
-      <button type='submit'><FaSearch/></button>
-  </form>
+      
+    </form>
 };
 
 export default SearchBox;

@@ -1,7 +1,7 @@
 import './App.css';
-import SearchBox from './SearchBox';
 import GetData from './GetData';
 import Repos from './Repos';
+import Header from './Header';
 import {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
@@ -22,8 +22,8 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <SearchBox
-          setnewUsername={setnewUsername}  
+        <Header
+          setnewUsername={setnewUsername}
         />
         <Switch>
           <Route exact path="/">
