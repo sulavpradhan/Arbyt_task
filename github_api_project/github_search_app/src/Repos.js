@@ -7,12 +7,13 @@ const Repos = ({match}) => {
   useEffect(() => {
     const getApi = async()=>{
 
-      const response = await fetch(`https://api.github.com/users/${newName}/repos`,{
-        method: "GET",
-        headers: {
-          Authorization: `token ${process.env.REACT_APP_token_githubSearchApp}` 
-        }
-      })
+      // const response = await fetch(`https://api.github.com/users/${newName}/repos`,{
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: `token ${process.env.REACT_APP_token_githubSearchApp}` 
+      //   }
+      // })
+      const response = await fetch(`https://api.github.com/users/${newName}/repos`)
       const data = await response.json()
       let a = data
       setRepo(a)

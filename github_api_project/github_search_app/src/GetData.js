@@ -7,7 +7,7 @@ const GetData = ({newUsername, posts}) => {
 
         
   if (newUsername === "") {
-    return null;
+    return <h3>search users</h3>;
   } 
   else {   
     return (

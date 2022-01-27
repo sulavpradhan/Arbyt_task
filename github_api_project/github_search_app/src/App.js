@@ -9,20 +9,22 @@ function App() {
   const [newUsername,setnewUsername] = useState('')
   const[posts , setposts] = useState([])
   useEffect(() => {
-    const getApi = async()=>{
-
-      const response = await fetch(`https://api.github.com/search/users?q=${newUsername}in:user`,{
-          method: "GET",
-          headers: {
-            Authorization: `token ${process.env.REACT_APP_token_githubSearchApp}` 
-          }
-        })
-      const data = await response.json()
-      // console.log(data)
-      let a = data.items
-      setposts(a)}
-    
-      getApi();
+    if (!newUsername==''){
+      const getApi = async()=>{
+          // const response = await fetch(`https://api.github.com/search/users?q=${newUsername}in:user`,{
+          //     method: "GET",
+          //     headers: {
+          //       Authorization: `token ${process.env.REACT_APP_token_githubSearchApp}` 
+          //     }
+          //   })
+          const response = await fetch(`https://api.github.com/search/users?q=${newUsername}in:user`)
+          const data = await response.json()
+          // console.log(data)
+          let a = data.items
+          setposts(a)}
+        
+          getApi();
+      }
   }, [newUsername]);
   return (
     <Router>

@@ -5,7 +5,9 @@ import './Header.css';
 
 const Header = ({setnewUsername}) => {
   return <header className='header'>
-      <h3>github search</h3>
+      <a href='/' style={{color:'black', textDecoration:'none'}}>
+        <h3>github search</h3>
+      </a>
       <SearchBox
           setnewUsername={setnewUsername}  
         />
