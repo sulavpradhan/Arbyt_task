@@ -1,6 +1,6 @@
 import React from "react";
 
-const DisplayDiv = ({ itemWithId }) => {
+const DisplayDiv = ({ itemWithId, onDelete }) => {
   if (itemWithId.length === 0) {
     return <h3>No todo</h3>;
   } else {
@@ -10,7 +10,13 @@ const DisplayDiv = ({ itemWithId }) => {
           <li key={item.id} style={{ listStyleType: "none" }}>
             <input type="checkbox" />
             <span>{item.toDoData}</span>
-            <button>delete</button>
+            <button
+              onClick={() => {
+                onDelete(item.id);
+              }}
+            >
+              delete
+            </button>
           </li>
         ))}
       </div>

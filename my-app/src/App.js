@@ -32,13 +32,21 @@ function App() {
     item.toDoData.toLowerCase().includes(search.toLowerCase())
   );
 
+  const onDelete = (itemId) => {
+    console.log(itemId);
+
+    const updatedTodo = itemWithId.filter((item) => item.id !== itemId);
+    console.log("updated list:", updatedTodo);
+    setItemWithId(updatedTodo);
+  };
+
   return (
     <div>
       <Header />
       <ToastContainer />
       <Form addToDoItem={addToDoItemhandler} />
       <SearchBox search={search} setSearch={setSearch} />
-      <DisplayDiv itemWithId={first} />
+      <DisplayDiv itemWithId={first} onDelete={onDelete} />
     </div>
   );
 }
