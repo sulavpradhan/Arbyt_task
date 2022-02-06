@@ -1,4 +1,5 @@
 import React from "react";
+import { Input } from "./styles/Input.styled";
 
 const SearchBox = ({ search, setSearch }) => {
   const onSubmitHandler = (e) => {
@@ -11,7 +12,8 @@ const SearchBox = ({ search, setSearch }) => {
 
   return (
     <form onSubmit={onSubmitHandler}>
-      <input
+      <Input
+        width="500px"
         type="text"
         placeholder="Search todo:"
         value={search}

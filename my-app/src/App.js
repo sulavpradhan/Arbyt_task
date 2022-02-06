@@ -1,4 +1,3 @@
-import "./App.css";
 import DisplayDiv from "./components/DisplayDiv";
 import Form from "./components/Form";
 import Header from "./components/Header";
@@ -7,6 +6,8 @@ import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
+import { Container } from "./components/styles/Container.styled";
+import GlobalStyles from "./components/styles/Global";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -24,6 +25,7 @@ function App() {
     const Data = {
       id: uuidv4(),
       toDoData: newData,
+      checked: false,
     };
     setItemWithId([Data, ...itemWithId]);
   };
@@ -33,21 +35,32 @@ function App() {
   );
 
   const onDelete = (itemId) => {
-    console.log(itemId);
-
     const updatedTodo = itemWithId.filter((item) => item.id !== itemId);
-    console.log("updated list:", updatedTodo);
     setItemWithId(updatedTodo);
   };
 
+  const handleCheck = (id) => {
+    const updatedCheck = itemWithId.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setItemWithId(updatedCheck);
+  };
+
   return (
-    <div>
+    <>
+      <GlobalStyles />
       <Header />
+      <Container>
+        <Form addToDoItem={addToDoItemhandler} />
+        <SearchBox search={search} setSearch={setSearch} />
+        <DisplayDiv
+          itemWithId={first}
+          onDelete={onDelete}
+          onCheck={handleCheck}
+        />
+      </Container>
       <ToastContainer />
-      <Form addToDoItem={addToDoItemhandler} />
-      <SearchBox search={search} setSearch={setSearch} />
-      <DisplayDiv itemWithId={first} onDelete={onDelete} />
-    </div>
+    </>
   );
 }
 

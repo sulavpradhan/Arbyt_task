@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { Input } from "./styles/Input.styled";
+import { TiDocumentAdd } from "react-icons/ti";
 
 const Form = ({ addToDoItem }) => {
   const [formData, setFormData] = useState("");
@@ -22,13 +24,30 @@ const Form = ({ addToDoItem }) => {
 
   return (
     <form onSubmit={onSubmithandler}>
-      <input
+      <Input
+        width="450px"
         type="text"
         placeholder="Enter ToDo:"
         value={formData}
         onChange={onChangeHandler}
       />
-      <button type="submit">add ToDo:</button>
+      <button
+        type="submit"
+        style={{
+          backgroundColor: "#dae3f1",
+          border: "none",
+          margin: "5px",
+          borderRadius: "5px",
+        }}
+      >
+        <TiDocumentAdd
+          style={{
+            height: "34px",
+            width: "34px",
+            color: "#6a8ec8",
+          }}
+        />
+      </button>
     </form>
   );
 };
