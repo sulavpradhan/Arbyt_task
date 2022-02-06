@@ -1,15 +1,17 @@
 import React from "react";
 
-const DisplayDiv = ({ toDoItem }) => {
-  if (toDoItem.length === 0) {
-    return <h3>You don't have any thing to do</h3>;
+const DisplayDiv = ({ itemWithId }) => {
+  if (itemWithId.length === 0) {
+    return <h3>No todo</h3>;
   } else {
     return (
       <div>
-        {toDoItem.map((item) => (
-          <ul>
-            <li>{item}</li>
-          </ul>
+        {itemWithId.map((item) => (
+          <li key={item.id} style={{ listStyleType: "none" }}>
+            <input type="checkbox" />
+            <span>{item.toDoData}</span>
+            <button>delete</button>
+          </li>
         ))}
       </div>
     );

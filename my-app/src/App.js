@@ -3,17 +3,34 @@ import DisplayDiv from "./components/DisplayDiv";
 import Form from "./components/Form";
 import Header from "./components/Header";
 import SearchBox from "./components/SearchBox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
-  const [toDoItem, setToDoItem] = useState([]);
   const [search, setSearch] = useState("");
+  const [itemWithId, setItemWithId] = useState(
+    JSON.parse(localStorage.getItem("ToDoWithId"))
+      ? JSON.parse(localStorage.getItem("ToDoWithId"))
+      : []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("ToDoWithId", JSON.stringify(itemWithId));
+  }, [itemWithId]);
 
   const addToDoItemhandler = (newData) => {
-    setToDoItem([newData, ...toDoItem]);
+    const Data = {
+      id: uuidv4(),
+      toDoData: newData,
+    };
+    setItemWithId([Data, ...itemWithId]);
   };
+
+  const first = itemWithId.filter((item) =>
+    item.toDoData.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div>
@@ -21,11 +38,7 @@ function App() {
       <ToastContainer />
       <Form addToDoItem={addToDoItemhandler} />
       <SearchBox search={search} setSearch={setSearch} />
-      <DisplayDiv
-        toDoItem={toDoItem.filter((item) =>
-          item.toLowerCase().includes(search.toLowerCase())
-        )}
-      />
+      <DisplayDiv itemWithId={first} />
     </div>
   );
 }
