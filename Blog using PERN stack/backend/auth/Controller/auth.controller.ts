@@ -22,4 +22,14 @@ export class Authcontroller {
     const manager = entityManager.getCustomRepository(UserRepository);
     await manager.loginUser(req, res);
   }
+
+  //@desc verify user email
+  //@route /login/verify/:token
+  //@access private
+
+  static async verifyUser(req: Request, res: Response) {
+    let entityManager = getManager() || getConnection().manager;
+    const manager = entityManager.getCustomRepository(UserRepository);
+    await manager.verifyUser(req, res);
+  }
 }

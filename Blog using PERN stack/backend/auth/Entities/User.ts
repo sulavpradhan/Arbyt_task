@@ -6,6 +6,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
+
+export type status = "pending" | "active";
 
 @Entity("user")
 export class User extends BaseEntity {
@@ -46,6 +49,21 @@ export class User extends BaseEntity {
     unique: true,
   })
   useremail!: string;
+
+  @Column({
+    type: "enum",
+    enum: ["pending", "active"],
+    default: "pending",
+  })
+  status!: status;
+
+  // error must set some value
+
+  @Column({
+    type: "varchar",
+    unique: true,
+  })
+  confirmation_code!: string;
 
   @CreateDateColumn()
   created_at!: Date;

@@ -8,5 +8,6 @@ router.get("/", (req: Request, res: Response) => {
 });
 router.post("/add", Authcontroller.createUser);
 router.post("/login", Authcontroller.loginUser);
+router.get("/add/verify/:confirmation_code", Authcontroller.verifyUser);
 
 export { router };
