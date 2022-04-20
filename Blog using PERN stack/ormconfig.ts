@@ -1,6 +1,7 @@
 // import { join } from "path";
 import { ConnectionOptions } from "typeorm";
 import { User } from "./backend/auth/Entities/User";
+import { Article } from "./backend/auth/Entities/Article";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -20,7 +21,7 @@ const connectionsOptions: ConnectionOptions = {
   password: process.env.POSTGRES_PASS,
   database: "Arbyte_Blog",
   synchronize: true,
-  entities: [User],
+  entities: [User, Article],
   dropSchema: false,
 };
 

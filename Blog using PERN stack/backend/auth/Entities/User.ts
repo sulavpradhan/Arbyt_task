@@ -6,7 +6,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
 
 export type status = "pending" | "active";
 

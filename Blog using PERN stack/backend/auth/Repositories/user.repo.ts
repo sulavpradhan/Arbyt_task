@@ -1,4 +1,4 @@
-import { EntityRepository, IsNull, Repository } from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 import { User } from "../Entities/User";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
