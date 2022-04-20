@@ -9,5 +9,7 @@ router.get("/", (req: Request, res: Response) => {
 router.post("/add", Authcontroller.createUser);
 router.post("/login", Authcontroller.loginUser);
 router.get("/add/verify/:confirmation_code", Authcontroller.verifyUser);
+router.post("/add/passwordReset", Authcontroller.sendResetLink);
+router.post("/add/passwordReset/:id", Authcontroller.resetPassword);
 
 export { router };

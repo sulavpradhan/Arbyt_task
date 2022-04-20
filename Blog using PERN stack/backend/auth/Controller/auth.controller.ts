@@ -24,12 +24,32 @@ export class Authcontroller {
   }
 
   //@desc verify user email
-  //@route /login/verify/:token
-  //@access private
+  //@route /add/verify/:token
+  //@access public
 
   static async verifyUser(req: Request, res: Response) {
     let entityManager = getManager() || getConnection().manager;
     const manager = entityManager.getCustomRepository(UserRepository);
     await manager.verifyUser(req, res);
+  }
+
+  //@desc send reset password link
+  //@route /add/passwordReset
+  //@access public
+
+  static async sendResetLink(req: Request, res: Response) {
+    let entityManager = getManager() || getConnection().manager;
+    const manager = entityManager.getCustomRepository(UserRepository);
+    await manager.sendResetLink(req, res);
+  }
+
+  //@desc reset/forgot password
+  //@route /add/passwordReset
+  //@access public
+
+  static async resetPassword(req: Request, res: Response) {
+    let entityManager = getManager() || getConnection().manager;
+    const manager = entityManager.getCustomRepository(UserRepository);
+    await manager.resetPassword(req, res);
   }
 }

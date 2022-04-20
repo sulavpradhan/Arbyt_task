@@ -65,6 +65,13 @@ export class User extends BaseEntity {
   })
   confirmation_code!: string;
 
+  @Column({
+    type: "varchar",
+    unique: true,
+    nullable: true,
+  })
+  resetToken!: string;
+
   @CreateDateColumn()
   created_at!: Date;
 
