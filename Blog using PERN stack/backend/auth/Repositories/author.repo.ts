@@ -1,7 +1,8 @@
 import {
-  createConnection,
   EntityRepository,
   getConnection,
+  getRepository,
+  RelationId,
   Repository,
 } from "typeorm";
 import { Article } from "../Entities/Article";
@@ -12,38 +13,40 @@ import { User } from "../Entities/User";
 export class ArticleRepository extends Repository<Article> {
   async createArticle(req: Request, res: Response) {
     const { title, excerpt, content } = req.body;
-    // console.log(title, excerpt, content);
     const id = req.params.id;
 
     try {
+      // Create new article/blog post
+
       let article = new Article();
       article.title = title;
       article.excerpt = excerpt;
       article.content = content;
 
-      let article2 = new Article(); // for testing
-      article2.title = "article 2";
-      article2.excerpt = "article 2";
-      article2.content = "article 2";
+      const UserRepo = getRepository(User);
 
-      const currentUser: any = await User.findOne({ id: id });
+      // Find the author of the post using id
 
-      // const userArticle: any = await User.find({
-      //   where: {
-      //     targetId: currentUser.id,
-      //   },
-      // });
+      const currentUser: any = await UserRepo.findOne({ id: id });
 
-      // console.log(userArticle);
+      // Find the aritcles that the author has posted using the realtion
 
-      currentUser.articles = [article, article2];
+      const userWithArticle: any = await UserRepo.findOne(
+        { id: id },
+        {
+          relations: ["articles"],
+        }
+      );
+
+      // Save the articles associated with an user
+
+      const articleArray = userWithArticle.articles;
+
+      currentUser.articles = [...articleArray, article];
 
       let userContent = await this.save(article);
-      let userContent2 = await this.save(article2);
 
-      //   let userConnection = await createConnection())
-
-      await getConnection().manager.save(currentUser);
+      await UserRepo.save(currentUser);
 
       res.status(400).send(userContent);
     } catch (error) {
