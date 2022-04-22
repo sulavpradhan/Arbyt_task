@@ -5,7 +5,10 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from "typeorm";
+
+import { User } from "./User";
 
 @Entity("Article")
 export class Article extends BaseEntity {
@@ -13,25 +16,34 @@ export class Article extends BaseEntity {
   id!: string;
 
   @Column({
-    type: "varchar",
+    type: "text",
     nullable: true,
     unique: false,
   })
   title!: string;
 
   @Column({
-    type: "varchar",
+    type: "text",
     nullable: true,
     unique: false,
   })
   excerpt!: string;
 
   @Column({
-    type: "varchar",
-    nullable: true,
+    type: "text",
     unique: false,
   })
-  categories!: string;
+  content!: any;
+
+  // @Column({
+  //   type: "varchar",
+  //   nullable: true,
+  //   unique: false,
+  // })
+  // categories!: string;
+
+  @ManyToOne(() => User, (user) => user.articles)
+  user!: User;
 
   @CreateDateColumn()
   created_at!: Date;

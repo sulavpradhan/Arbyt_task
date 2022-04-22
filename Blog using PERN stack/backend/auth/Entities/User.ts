@@ -5,7 +5,9 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
+import { Article } from "./Article";
 
 export type status = "pending" | "active";
 
@@ -56,8 +58,6 @@ export class User extends BaseEntity {
   })
   status!: status;
 
-  // error must set some value
-
   @Column({
     type: "varchar",
     unique: true,
@@ -70,6 +70,9 @@ export class User extends BaseEntity {
     nullable: true,
   })
   resetToken!: string;
+
+  @OneToMany(() => Article, (article) => article.user)
+  articles!: Article[];
 
   @CreateDateColumn()
   created_at!: Date;
