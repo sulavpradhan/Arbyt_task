@@ -35,13 +35,6 @@ export class Article extends BaseEntity {
   })
   content!: any;
 
-  // @Column({
-  //   type: "varchar",
-  //   nullable: true,
-  //   unique: false,
-  // })
-  // categories!: string;
-
   @ManyToOne(() => User, (user) => user.articles)
   user!: User;
 
