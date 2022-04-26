@@ -2,7 +2,6 @@ import { EntityRepository, getRepository, Repository } from "typeorm";
 import { Article } from "../Entities/Article";
 import { Request, Response } from "express";
 import { User } from "../Entities/User";
-import { json } from "stream/consumers";
 
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
@@ -86,7 +85,7 @@ export class ArticleRepository extends Repository<Article> {
   async updateArticle(req: Request, res: Response) {
     const { title, excerpt, content } = req.body;
     const user = req.user;
-    const articleId: any = req.query.articleId;
+    const articleId: string = req.query.articleId?.toString() || "";
     try {
       const currentArticle: any = await Article.findOne({ id: articleId });
       currentArticle.title = title;
@@ -105,7 +104,7 @@ export class ArticleRepository extends Repository<Article> {
 
   // Get single article
   async getSingleArticle(req: Request, res: Response) {
-    const articleId: any = req.params.articleId;
+    const articleId: string = req.params.articleId;
     try {
       const currentArticle: any = await Article.findOne({ id: articleId });
       res.status(400).json({
