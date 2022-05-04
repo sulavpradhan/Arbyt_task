@@ -16,7 +16,7 @@ export class UserRepository extends Repository<User> {
   // Create a new user
 
   async createUser(req: Request, res: Response) {
-    const { firstname, lastname, useremail, password, username } = req.body;
+    const { firstname, lastname, email, password, username } = req.body;
 
     // Hash the password
     const salt = await bcrypt.genSalt(10);
@@ -27,12 +27,12 @@ export class UserRepository extends Repository<User> {
       user.firstname = firstname;
       user.lastname = lastname;
       user.username = username;
-      user.useremail = useremail;
+      user.useremail = email;
       user.password = hashedPassword;
 
       // generate confirmation code
 
-      user.confirmation_code = this.generateConfirmationCode(useremail);
+      user.confirmation_code = this.generateConfirmationCode(email);
 
       // Send email for verification
 
@@ -42,20 +42,26 @@ export class UserRepository extends Repository<User> {
         user.confirmation_code
       );
       let userData = await this.save(user);
-      return res.send(userData);
+      return res.status(200).send({
+        userData,
+        message: "user registered sucessfully ",
+      });
     } catch (error) {
-      res.send(error);
+      res.status(503).send({
+        message: "The user could not be registered",
+      });
     }
   }
 
   // Login user
 
   async loginUser(req: Request, res: Response) {
-    const { useremail, password } = req.body;
+    const { email, password } = req.body;
+    console.log(email, password);
 
     try {
-      const currentUser: any = await User.findOne({ useremail: useremail });
-
+      const currentUser: any = await User.findOne({ useremail: email });
+      console.log(currentUser);
       // check user status before login
 
       if (currentUser.status != "active") {
@@ -72,14 +78,16 @@ export class UserRepository extends Repository<User> {
         res.status(200).json({
           id: currentUser.id,
           name: currentUser.username,
-          email: currentUser.useremail,
+          email: currentUser.email,
           token: this.generateToken(currentUser.id, time),
           status: currentUser.status,
         });
       } else {
       }
     } catch (error) {
-      res.send(error);
+      res.status(404).send({
+        message: "user not found",
+      });
     }
   }
 
@@ -110,9 +118,9 @@ export class UserRepository extends Repository<User> {
   // Send Reset password link
 
   async sendResetLink(req: Request, res: Response) {
-    const { useremail } = req.body;
+    const { email } = req.body;
 
-    const currentUser = await User.findOne({ useremail: useremail });
+    const currentUser = await User.findOne({ useremail: email });
 
     try {
       if (currentUser) {
@@ -148,7 +156,7 @@ export class UserRepository extends Repository<User> {
   async resetPassword(req: Request, res: Response) {
     console.log("the log is from reset password");
     const id = req.params.id;
-    const useremail = req.query.useremail;
+    const email = req.query.email;
     const resetToken = req.query.resetToken;
     const { password } = req.body;
     console.log(
