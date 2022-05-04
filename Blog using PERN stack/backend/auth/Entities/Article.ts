@@ -6,7 +6,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
+import { Category } from "./Category";
 
 import { User } from "./User";
 
@@ -35,8 +38,12 @@ export class Article extends BaseEntity {
   })
   content!: any;
 
-  @ManyToOne(() => User, (user) => user.articles)
+  @ManyToOne(() => User, (user) => user.articles, { cascade: true })
   user!: User;
+
+  @ManyToMany(() => Category)
+  @JoinTable()
+  categories!: Category[];
 
   @CreateDateColumn()
   created_at!: Date;

@@ -2,12 +2,14 @@ import { EntityRepository, getRepository, Repository } from "typeorm";
 import { Article } from "../Entities/Article";
 import { Request, Response } from "express";
 import { User } from "../Entities/User";
+import { Category } from "../Entities/Category";
 
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
   // Create new article/blog post
 
   async createArticle(req: Request, res: Response) {
+    console.log(req.body);
     const { title, excerpt, content } = req.body;
     const id = req.user.id;
 
@@ -16,6 +18,8 @@ export class ArticleRepository extends Repository<Article> {
       article.title = title;
       article.excerpt = excerpt;
       article.content = content;
+
+      // todo: article.categories = categories : string[]
 
       const UserRepo = getRepository(User);
 
@@ -34,7 +38,7 @@ export class ArticleRepository extends Repository<Article> {
 
       console.log(userWithArticle);
 
-      // Save the articles associated with an user
+      // Save the articles associated with an user and also save the categories
 
       const articleArray = userWithArticle.articles;
 
