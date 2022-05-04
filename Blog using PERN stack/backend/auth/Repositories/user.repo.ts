@@ -23,6 +23,21 @@ export class UserRepository extends Repository<User> {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     try {
+      if (!firstname || !lastname || !email || !username || !password) {
+        //   return res.status(400).send({
+        //     message: "Please include all fields",
+        //   });
+        res.status(400);
+        throw new Error("Please include all fields");
+      }
+
+      const userExists = await User.findOne({ useremail: email });
+
+      if (userExists) {
+        res.status(409);
+        throw new Error("User already exists");
+      }
+
       let user = new User();
       user.firstname = firstname;
       user.lastname = lastname;
@@ -46,9 +61,9 @@ export class UserRepository extends Repository<User> {
         userData,
         message: "user registered sucessfully ",
       });
-    } catch (error) {
-      res.status(503).send({
-        message: "The user could not be registered",
+    } catch (error: any) {
+      res.status(res.statusCode || 503).send({
+        message: error.message || "The user could not be registered",
       });
     }
   }
