@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/";
+const API_URL = "";
 
 // Register User
 const register = async (userData: object) => {
@@ -15,10 +15,13 @@ const register = async (userData: object) => {
 
 // Login User
 const loginUser = async (userData: object) => {
+  console.log(userData);
   const response = await axios.post(API_URL + "/login", userData);
+  console.log(response);
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
+    console.log("login user print");
   }
 
   return response.data;
