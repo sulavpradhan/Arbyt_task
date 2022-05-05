@@ -21,7 +21,6 @@ const LoginPage = () => {
   });
 
   useEffect(() => {
-    console.log("from useEffect");
     if (isError) {
       console.log("there has been an error", message);
     }
