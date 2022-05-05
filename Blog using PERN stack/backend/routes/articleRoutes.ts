@@ -6,6 +6,7 @@ const articleRouter = Router();
 
 // Article routes
 
+articleRouter.get("/all", Articlecontroller.getAllArticles);
 articleRouter
   .route("/:username")
   .post(protect, Articlecontroller.createArticle)

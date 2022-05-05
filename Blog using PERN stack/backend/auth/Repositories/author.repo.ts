@@ -1,6 +1,6 @@
 import { EntityRepository, getRepository, Repository } from "typeorm";
 import { Article } from "../Entities/Article";
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import { User } from "../Entities/User";
 import { Category } from "../Entities/Category";
 
@@ -111,11 +111,23 @@ export class ArticleRepository extends Repository<Article> {
     const articleId: string = req.params.articleId;
     try {
       const currentArticle: any = await Article.findOne({ id: articleId });
-      res.status(400).json({
+      res.status(200).json({
         title: currentArticle.title,
         excerpt: currentArticle.excerpt,
         content: currentArticle.content,
       });
     } catch (error) {}
+  }
+
+  // Get all the articles
+  async getAllArticles(req: Request, res: Response) {
+    try {
+      const allArticle: any = await Article.find();
+      res.status(200).send(allArticle);
+    } catch (error) {
+      response.status(500).send({
+        message: "Something went worng",
+      });
+    }
   }
 }

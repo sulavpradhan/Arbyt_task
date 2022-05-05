@@ -38,4 +38,12 @@ export class Articlecontroller {
     const manager = entityManager.getCustomRepository(ArticleRepository);
     await manager.getSingleArticle(req, res);
   }
+  // @desc get all article
+  // @path /article/all
+  // @access public
+  static async getAllArticles(req: Request, res: Response) {
+    let entityManager = getManager() || getConnection().manager;
+    const manager = entityManager.getCustomRepository(ArticleRepository);
+    await manager.getAllArticles(req, res);
+  }
 }
