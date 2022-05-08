@@ -110,11 +110,20 @@ export class ArticleRepository extends Repository<Article> {
   async getSingleArticle(req: Request, res: Response) {
     const articleId: string = req.params.articleId;
     try {
-      const currentArticle: any = await Article.findOne({ id: articleId });
+      const currentArticle: any = await Article.findOne(
+        { id: articleId },
+        {
+          relations: ["user"],
+        }
+      );
       res.status(200).json({
         title: currentArticle.title,
         excerpt: currentArticle.excerpt,
         content: currentArticle.content,
+        userId: currentArticle.user.id,
+        userName: currentArticle.user.username,
+        created_at: currentArticle.created_at,
+        updated_at: currentArticle.updated_at,
       });
     } catch (error) {}
   }

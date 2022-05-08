@@ -9,10 +9,12 @@ interface Article {
   content: string;
   created_at: string;
   updated_at: string;
+  userId: string;
+  userName: string;
 }
 
 interface InitialState {
-  article: Article[];
+  article: Article;
   articles: Article[];
   isError: boolean;
   isSuccess: boolean;
@@ -21,7 +23,16 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  article: [],
+  article: {
+    id: "",
+    title: "",
+    excerpt: "",
+    content: "",
+    created_at: "",
+    updated_at: "",
+    userId: "",
+    userName: "",
+  },
   articles: [],
   isError: false,
   isSuccess: false,
@@ -34,6 +45,25 @@ export const showAllArticle = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await articleService.showAllArticle();
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getSingleArticle = createAsyncThunk(
+  "articles/singleArticle",
+  async (articleId: string | undefined, thunkAPI) => {
+    try {
+      return await articleService.getSingleArticle(articleId);
+      // todo: create authservice to get the article passing the article id as arguement
     } catch (error: any) {
       const message =
         (error.response &&
@@ -63,14 +93,33 @@ export const articleSlice = createSlice({
         (state, action: PayloadAction<any>) => {
           state.isLoading = false;
           state.isSuccess = true;
-          state.article = action.payload;
+          state.articles = action.payload;
         }
       )
       .addCase(showAllArticle.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      });
+      })
+      .addCase(getSingleArticle.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        getSingleArticle.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.article = action.payload;
+        }
+      )
+      .addCase(
+        getSingleArticle.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+        }
+      );
   },
 });
 

@@ -14,7 +14,6 @@ const Homepage = () => {
     useSelector((state: RootState) => state.article);
 
   useEffect(() => {
-    console.log("from useeffect");
     if (isError) {
       console.log("there has been an error ", message);
     }
@@ -22,23 +21,22 @@ const Homepage = () => {
     dispatch(showAllArticle());
   }, [isError, message]);
 
-  const onChangeHandler = (id: string) => {
-    console.log(id);
+  const onClickHandler = (id: string) => {
+    navigate(`/article/read/${id}`);
   };
 
-  console.log(article);
   console.log(articles);
 
   return (
     <>
       <ul style={{ listStyle: "none" }}>
-        {article.map((item) => {
+        {articles.map((item) => {
           return (
             <li
               className="Repo"
               key={item.id}
               style={{ border: "solid" }}
-              onClick={() => onChangeHandler(item.id)}
+              onClick={() => onClickHandler(item.id)}
             >
               <h2>{item.title}</h2>
               <h3 style={{ fontStyle: "italic", fontSize: "normal" }}>
